@@ -1,8 +1,8 @@
 package domain.images
 
-import domain.images.DogImage
+import domain.breeds.BreedEntity
 import kotlinx.coroutines.flow.Flow
 
 interface ImagesRepository {
-    fun getImagesByBreed(breedKey: String): Flow<List<DogImage>>
+    fun getImagesByBreed(breedEntity: BreedEntity): Flow<List<DogImage>>
 }

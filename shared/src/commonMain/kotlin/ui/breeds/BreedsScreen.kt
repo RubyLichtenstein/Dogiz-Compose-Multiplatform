@@ -29,7 +29,6 @@ import data.breeds.BreedsRepositoryImpl
 import domain.breeds.BreedEntity
 import domain.breeds.GetBreedsUseCase
 import kotlinx.coroutines.flow.Flow
-import utils.capitalizeWords
 import utils.common.UiState
 import utils.common.UiStateWrapper
 import utils.common.asUiState
@@ -94,7 +93,7 @@ fun BreedListItem(breed: BreedEntity, onClick: () -> Unit) {
         ListItem(
             headlineContent = {
                 Text(
-                    text = breed.name.capitalizeWords(),
+                    text = breed.displayName(),
                 )
             },
             Modifier.clickable(onClick = onClick),

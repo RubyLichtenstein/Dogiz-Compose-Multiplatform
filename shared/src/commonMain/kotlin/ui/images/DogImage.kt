@@ -18,45 +18,39 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import io.ktor.http.Url
 
-//import coil.compose.SubcomposeAsyncImage,
-
 @Composable
 fun DogImage(url: String) {
     val painterResource = asyncPainterResource(data = Url(url))
     KamelImage(
+        modifier = Modifier
+            .fillMaxSize()
+            .aspectRatio(1f),
         resource = painterResource,
+        contentScale = ContentScale.Crop,
         contentDescription = "Dog image",
+        onLoading = {
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center  // <-- Centering here
+            ) {
+                CircularProgressIndicator(
+                    Modifier.size(32.dp)
+                )
+            }
+        },
+        onFailure = {
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center  // <-- Centering here
+            ) {
+                Text(
+                    text = "Image failed to load",
+                    style = TextStyle(
+                        color = Color.Red,
+                        fontSize = 14.sp
+                    )
+                )
+            }
+        }
     )
-//    SubcomposeAsyncImage(
-//        model = url,
-//        contentDescription = null,
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .aspectRatio(1f),
-//        contentScale = ContentScale.Crop,
-//        loading = {
-//            Box(
-//                Modifier.fillMaxSize(),
-//                contentAlignment = Alignment.Center  // <-- Centering here
-//            ) {
-//                CircularProgressIndicator(
-//                    Modifier.size(32.dp)
-//                )
-//            }
-//        },
-//        error = {
-//            Box(
-//                Modifier.fillMaxSize(),
-//                contentAlignment = Alignment.Center  // <-- Centering here
-//            ) {
-//                Text(
-//                    text = "Image failed to load",
-//                    style = TextStyle(
-//                        color = Color.Red,
-//                        fontSize = 14.sp
-//                    )
-//                )
-//            }
-//        }
-//    )
 }

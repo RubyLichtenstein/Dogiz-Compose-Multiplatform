@@ -20,36 +20,26 @@ class GetBreedsUseCase constructor(
         return breedInfoList.flatMap { breed ->
             val subBreedItems = breed.subBreedsNames.map { subBreedName ->
                 BreedEntity(
-                    buildDisplayName(breed.name, subBreedName),
-                    "${breed.name}_${subBreedName}"
+                    breed = breed.name,
+                    subBreed = subBreedName,
                 )
             }
 
             listOf(
                 BreedEntity(
-                    breed.name,
-                    breed.name
+                    breed = breed.name,
+                    subBreed = null,
                 )
             ) + subBreedItems
         }
     }
 }
 
-fun buildDisplayName(breedName: String, subBreedName: String?): String {
-    val capitalizedBreed = breedName.capitalizeWords()
-    val capitalizedSubBreed = subBreedName?.capitalizeWords()
-
-    return if (capitalizedSubBreed != null) {
-        "$capitalizedBreed ($capitalizedSubBreed)"
-    } else {
-        capitalizedBreed
-    }
-}
 
 fun buildDisplayNameFromKey(breedName: String): String {
     val parts = breedName.split('/')
     val breed = parts[0].capitalizeWords()
     val subBreed = parts.getOrNull(1)?.capitalizeWords()
 
-    return buildDisplayName(breed, subBreed)
+    return BreedEntity(breed = breed, subBreed = subBreed).displayName()
 }

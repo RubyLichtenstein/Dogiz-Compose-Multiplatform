@@ -1,22 +1,21 @@
 package data.images
 
+import domain.breeds.BreedEntity
 import domain.breeds.buildDisplayNameFromKey
 import domain.images.DogImage
 import domain.images.ImagesRepository
+import domain.images.buildBreedKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
 
 class ImagesRepositoryImpl constructor(
     private val dogBreedApiService: BreedImagesApi,
-//    private val imagesDataStore: DogImageDao
 ) : ImagesRepository {
-    override fun getImagesByBreed(breedKey: String): Flow<List<DogImage>> = TODO()
-//        getImagesByBreedFromLocal(breedKey)
-//            .onStart { fetchAndSave(breedKey) }
-//            .distinctUntilChanged()
-
-    private suspend fun fetchAndSave(breedKey: String) {
-        val remoteData = getRemoteBreedImages(breedKey)
-//        imagesDataStore.insertAll(remoteData.map { it.fromDogImageEntity() })
+    override fun getImagesByBreed(breedEntity: BreedEntity): Flow<List<DogImage>> = flow {
+        val breedKey = buildBreedKey(breedEntity.subBreed, breedEntity.breed)
+        val value = getRemoteBreedImages(breedKey)
+        emit(value)
     }
 
     private suspend fun getRemoteBreedImages(breedKey: String): List<DogImage> {
@@ -29,14 +28,6 @@ class ImagesRepositoryImpl constructor(
             )
         }
     }
-
-//    private fun getImagesByBreedFromLocal(breedKey: String): Flow<List<DogImage>> {
-//        return imagesDataStore.getDogImagesByBreedKey(breedKey).map {
-//            it.map { entity ->
-//                entity.toDogImageEntity()
-//            }
-//        }
-//    }
 }
 
 

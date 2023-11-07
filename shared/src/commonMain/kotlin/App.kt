@@ -1,17 +1,16 @@
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import domain.breeds.BreedEntity
 import ui.breeds.BreedsScreen
-import ui.images.DogImage
+import ui.images.ImagesScreen
 
 sealed class Screen {
     data object BreedsList : Screen()
     data object Favorites : Screen()
-    data class DogImages(val breedKey: String) : Screen()
+    data class DogImages(val breedEntity: BreedEntity) : Screen()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,11 +21,15 @@ fun App() {
 
         when (val screen = currentScreen.value) {
             is Screen.BreedsList -> BreedsScreen { breed ->
-                currentScreen.value = Screen.DogImages(breed.route)
+                currentScreen.value = Screen.DogImages(breed)
             }
 
             is Screen.Favorites -> BreedsScreen {}
-            is Screen.DogImages -> DogImage(screen.breedKey)
+            is Screen.DogImages -> ImagesScreen(
+                screen.breedEntity
+            ) {
+                currentScreen.value = Screen.BreedsList
+            }
         }
     }
 }
