@@ -5,33 +5,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class BreedsRepositoryImpl constructor(
-    private val breedsApi: BreedsRemoteApi,
-//    private val breedsDataStore: BreedsDataStore
+    private val breedsApi: BreedsApi,
 ) : BreedsRepository {
 
     override val breedsFlow: Flow<List<BreedInfoImpl>> = flow {
-        // Try fetching from local first
-//        val localBreeds = getBreedsFromLocal()
-//        if (localBreeds != null) {
-//            emit(localBreeds)
-//        }
-
-        // Then always fetch from remote
-        try {
-            val remoteBreeds = breedsApi.getAllBreeds()
-            val breeds = BreedInfoImpl.fromMap(remoteBreeds)
-//            breedsDataStore.save(breeds)
-            emit(breeds)
-        } catch (exception: Exception) {
-//            if (localBreeds == null) {
-//                throw exception
-        }
+        val remoteBreeds = breedsApi.getAllBreeds()
+        val breeds = BreedInfoImpl.fromMap(remoteBreeds)
+        emit(breeds)
     }
 }
-
-//    private suspend fun getBreedsFromLocal(): List<BreedInfoImpl>? {
-//        return breedsDataStore.get.firstOrNull()
-//    }
-//}
 
 

@@ -23,12 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import data.KtorHttpClient
-import data.breeds.BreedsRemoteApi
-import data.breeds.BreedsRepositoryImpl
 import domain.breeds.BreedEntity
 import domain.breeds.GetBreedsUseCase
-import kotlinx.coroutines.flow.Flow
+import org.koin.compose.koinInject
 import utils.common.UiState
 import utils.common.UiStateWrapper
 import utils.common.asUiState
@@ -38,11 +35,9 @@ import utils.common.asUiState
 fun BreedsScreen(
     navigateToDogImages: (BreedEntity) -> Unit
 ) {
-    val breedsFlow: Flow<List<BreedEntity>> = GetBreedsUseCase(
-        BreedsRepositoryImpl(BreedsRemoteApi(KtorHttpClient()))
-    ).invoke()
+    val getBreedsUseCase = koinInject<GetBreedsUseCase>()
 
-    val breedListState by breedsFlow.asUiState().collectAsState(initial = UiState.Loading)
+    val breedListState by getBreedsUseCase().asUiState().collectAsState(initial = UiState.Loading)
 
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())

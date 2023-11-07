@@ -25,6 +25,7 @@ kotlin {
     sourceSets {
         val ktorVersion = "2.3.5"
         val serializationVersion = "1.6.0"
+        val koinVersion = "3.5.0"
 
         val commonMain by getting {
             dependencies {
@@ -42,6 +43,8 @@ kotlin {
                 implementation("media.kamel:kamel-image:0.8.3")
                 implementation("io.github.oshai:kotlin-logging:5.1.0")
                 implementation("io.github.aakira:napier:2.6.1")
+                implementation("io.insert-koin:koin-core:$koinVersion")
+                implementation("io.insert-koin:koin-compose:1.1.0")
             }
         }
         val androidMain by getting {

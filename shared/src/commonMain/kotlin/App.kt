@@ -3,7 +3,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import data.dataModule
 import domain.breeds.BreedEntity
+import domain.domainModule
+import org.koin.compose.KoinApplication
 import ui.breeds.BreedsScreen
 import ui.images.ImagesScreen
 
@@ -16,19 +19,28 @@ sealed class Screen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
-    MaterialTheme {
-        val currentScreen = remember { mutableStateOf<Screen>(Screen.BreedsList) }
+    KoinApplication(application = {
+        modules(
+            listOf(
+                dataModule,
+                domainModule
+            )
+        )
+    }) {
+        MaterialTheme {
+            val currentScreen = remember { mutableStateOf<Screen>(Screen.BreedsList) }
 
-        when (val screen = currentScreen.value) {
-            is Screen.BreedsList -> BreedsScreen { breed ->
-                currentScreen.value = Screen.DogImages(breed)
-            }
+            when (val screen = currentScreen.value) {
+                is Screen.BreedsList -> BreedsScreen { breed ->
+                    currentScreen.value = Screen.DogImages(breed)
+                }
 
-            is Screen.Favorites -> BreedsScreen {}
-            is Screen.DogImages -> ImagesScreen(
-                screen.breedEntity
-            ) {
-                currentScreen.value = Screen.BreedsList
+                is Screen.Favorites -> BreedsScreen {}
+                is Screen.DogImages -> ImagesScreen(
+                    screen.breedEntity
+                ) {
+                    currentScreen.value = Screen.BreedsList
+                }
             }
         }
     }

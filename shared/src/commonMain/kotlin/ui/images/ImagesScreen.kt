@@ -20,11 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
-import data.KtorHttpClient
-import data.images.BreedImagesApiImpl
-import data.images.ImagesRepositoryImpl
 import domain.breeds.BreedEntity
 import domain.images.GetBreedImagesUseCase
+import org.koin.compose.koinInject
 import utils.common.UiState
 import utils.common.UiStateWrapper
 import utils.common.asUiState
@@ -35,14 +33,7 @@ fun ImagesScreen(
     breedEntity: BreedEntity,
     onClickBack: () -> Unit,
 ) {
-    val getBreedImagesUseCase = GetBreedImagesUseCase(
-        imagesRepository = ImagesRepositoryImpl(
-            dogBreedApiService = BreedImagesApiImpl(
-                KtorHttpClient()
-            )
-        )
-    )
-
+    val getBreedImagesUseCase = koinInject<GetBreedImagesUseCase>()
 
     val dogImages by getBreedImagesUseCase.invoke(breedEntity)
         .asUiState()

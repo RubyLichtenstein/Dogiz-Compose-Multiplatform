@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 
 
 class ImagesRepositoryImpl constructor(
-    private val dogBreedApiService: BreedImagesApi,
+    private val dogBreedApiService: ImagesApi,
 ) : ImagesRepository {
     override fun getImagesByBreed(breedEntity: BreedEntity): Flow<List<DogImage>> = flow {
         val breedKey = buildBreedKey(breedEntity.subBreed, breedEntity.breed)

@@ -5,13 +5,13 @@ import io.ktor.client.request.get
 
 const val BASE_URL = "https://dog.ceo/api/"
 
-interface BreedImagesApi {
+interface ImagesApi {
     suspend fun getBreedImages(breed: String): List<String>
 }
 
-class BreedImagesApiImpl constructor(
+class ImagesApiImpl constructor(
     private val client: KtorHttpClient
-) : BreedImagesApi {
+) : ImagesApi {
 
     /**
      * Fetches a list of image URLs for a given dog breed or sub-breed.
