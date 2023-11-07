@@ -1,39 +1,32 @@
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
+import ui.breeds.BreedsScreen
+import ui.images.DogImage
 
-@OptIn(ExperimentalResourceApi::class)
+sealed class Screen {
+    data object BreedsList : Screen()
+    data object Favorites : Screen()
+    data class DogImages(val breedKey: String) : Screen()
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
     MaterialTheme {
-        var greetingText by remember { mutableStateOf("Hello, World!") }
-        var showImage by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {
-                greetingText = "Hello, ${getPlatformName()}"
-                showImage = !showImage
-            }) {
-                Text(greetingText)
+        val currentScreen = remember { mutableStateOf<Screen>(Screen.BreedsList) }
+
+        when (val screen = currentScreen.value) {
+            is Screen.BreedsList -> BreedsScreen { breed ->
+                currentScreen.value = Screen.DogImages(breed.route)
             }
-            AnimatedVisibility(showImage) {
-                Image(
-                    painterResource("compose-multiplatform.xml"),
-                    contentDescription = "Compose Multiplatform icon"
-                )
-            }
+
+            is Screen.Favorites -> BreedsScreen {}
+            is Screen.DogImages -> DogImage(screen.breedKey)
         }
     }
 }
