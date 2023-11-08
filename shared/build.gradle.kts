@@ -26,6 +26,7 @@ kotlin {
         val ktorVersion = "2.3.5"
         val serializationVersion = "1.6.0"
         val koinVersion = "3.5.0"
+        val voyagerVersion = "1.0.0-rc10"
 
         val commonMain by getting {
             dependencies {
@@ -45,6 +46,7 @@ kotlin {
                 implementation("io.github.aakira:napier:2.6.1")
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("io.insert-koin:koin-compose:1.1.0")
+                implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
             }
         }
         val androidMain by getting {
