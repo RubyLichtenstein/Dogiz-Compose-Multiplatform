@@ -47,6 +47,10 @@ kotlin {
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("io.insert-koin:koin-compose:1.1.0")
                 implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+                implementation("cafe.adriel.voyager:voyager-tab-navigator:$voyagerVersion")
+                implementation("app.cash.molecule:molecule-runtime:1.3.0")
+                implementation("androidx.datastore:datastore-core-okio:1.1.0-alpha06")
+                implementation("androidx.datastore:datastore-preferences-core:1.1.0-alpha06")
             }
         }
         val androidMain by getting {

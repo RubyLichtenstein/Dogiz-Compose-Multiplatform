@@ -7,3 +7,14 @@ plugins {
     id("org.jetbrains.compose").apply(false)
     id("org.jetbrains.kotlin.android") version "1.9.20" apply false
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+
+    dependencies {
+        classpath("app.cash.molecule:molecule-gradle-plugin:1.3.0")
+    }
+}
